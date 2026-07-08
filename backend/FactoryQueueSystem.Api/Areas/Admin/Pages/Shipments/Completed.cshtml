@@ -1,0 +1,54 @@
+@page
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.Shipments.CompletedModel
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Tamamlanan Sevkiyatlar</h1>
+        <p class="text-secondary mb-0">Net teslim miktarı hesaplanan işlemler.</p>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body p-0">
+        @if (Model.Items.Count == 0)
+        {
+            <div class="text-center p-5">
+                <div class="display-6 text-success mb-2">✓</div>
+                <h2 class="h5">Tamamlanan sevkiyat yok</h2>
+                <p class="text-secondary mb-0">Biten işlemler burada görünür.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Plaka</th>
+                            <th>Şoför</th>
+                            <th>Malzeme</th>
+                            <th>Dolu</th>
+                            <th>Boş</th>
+                            <th>Net</th>
+                            <th>Durum</th>
+                            <th>Tamamlanma</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="fw-bold">@item.PlateNumber</td>
+                            <td>@item.DriverName</td>
+                            <td>@item.RawMaterialName</td>
+                            <td>@(item.LoadedWeight?.ToString("N2") ?? "-")</td>
+                            <td>@(item.EmptyWeight?.ToString("N2") ?? "-")</td>
+                            <td class="fw-bold text-success">@(item.NetAmount?.ToString("N2") ?? "-")</td>
+                            <td><span class="badge text-bg-success">@item.StatusName</span></td>
+                            <td>@item.CompletedAt</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

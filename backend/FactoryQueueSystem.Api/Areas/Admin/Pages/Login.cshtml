@@ -1,0 +1,35 @@
+@page
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.LoginModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Giriş</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; background: #f6f7f9; }
+        form { background: white; padding: 24px; border: 1px solid #d7dce2; width: min(360px, calc(100vw - 32px)); }
+        label { display: block; margin-top: 12px; }
+        input { width: 100%; padding: 9px; box-sizing: border-box; }
+        button { margin-top: 18px; padding: 10px 14px; width: 100%; }
+        .error { color: #b42318; }
+    </style>
+</head>
+<body>
+    <form method="post">
+        <h1>Admin Giriş</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <p class="error">@Model.ErrorMessage</p>
+        }
+        <label asp-for="EmailOrPhone">E-posta veya telefon</label>
+        <input asp-for="EmailOrPhone" />
+        <label asp-for="Password">Şifre</label>
+        <input asp-for="Password" type="password" />
+        <button type="submit">Giriş Yap</button>
+    </form>
+</body>
+</html>
