@@ -1,0 +1,16 @@
+# Ignore generated Flutter platform code for GitHub language statistics
+mobile/factory_queue_mobile/android/** linguist-vendored
+mobile/factory_queue_mobile/ios/** linguist-vendored
+mobile/factory_queue_mobile/linux/** linguist-vendored
+mobile/factory_queue_mobile/macos/** linguist-vendored
+mobile/factory_queue_mobile/windows/** linguist-vendored
+mobile/factory_queue_mobile/web/** linguist-vendored
+
+# Ignore generated Entity Framework migrations
+backend/FactoryQueueSystem.Api/Migrations/** linguist-generated
+
+# Ignore common generated folders
+**/bin/** linguist-generated
+**/obj/** linguist-generated
+**/.dart_tool/** linguist-generated
+**/build/** linguist-generated
