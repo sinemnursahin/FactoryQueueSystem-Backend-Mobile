@@ -24,4 +24,14 @@ class QueueShipmentController {
     await _ref.read(shipmentServiceProvider).queue(shipmentId);
     _ref.invalidate(activeShipmentProvider);
   }
+
+  Future<void> assignVehicle(String shipmentId, {required String plateNumber}) async {
+    await _ref.read(shipmentServiceProvider).assignVehicle(shipmentId, plateNumber: plateNumber);
+    _ref.invalidate(activeShipmentProvider);
+  }
+
+  Future<void> exitFacility(String shipmentId) async {
+    await _ref.read(shipmentServiceProvider).exitFacility(shipmentId);
+    _ref.invalidate(activeShipmentProvider);
+  }
 }

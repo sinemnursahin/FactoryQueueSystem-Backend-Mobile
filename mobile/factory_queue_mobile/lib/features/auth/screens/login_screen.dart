@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:factory_queue_mobile/core/validation/contact_validation.dart';
 import 'package:factory_queue_mobile/features/auth/providers/auth_provider.dart';
 import 'package:factory_queue_mobile/features/auth/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           TextField(
                             controller: _emailOrPhoneController,
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(prefixIcon: Icon(Icons.alternate_email_rounded), labelText: 'E-posta veya telefon'),
+                            decoration: const InputDecoration(prefixIcon: Icon(Icons.alternate_email_rounded), labelText: 'E-posta veya telefon', helperText: 'Örn: ad@example.com'),
                           ),
                           const SizedBox(height: 14),
                           TextField(
@@ -109,10 +110,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           FilledButton(
                             onPressed: auth.isLoading
                                 ? null
-                                : () => ref.read(authProvider.notifier).login(
-                                      _emailOrPhoneController.text.trim(),
-                                      _passwordController.text,
-                                    ),
+                                : () {
+                                    final login = _emailOrPhoneController.text.trim();
+                                    if (login.contains('@') && !ContactValidation.isValidEmail(login.toLowerCase())) {
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(ContactValidation.invalidEmailMessage), backgroundColor: Color(0xFFEF4444)));
+                                      return;
+                                    }
+
+                                    ref.read(authProvider.notifier).login(
+                                          login,
+                                          _passwordController.text,
+                                        );
+                                  },
                             child: AnimatedSwitcher(
                               duration: const Duration(milliseconds: 180),
                               child: auth.isLoading

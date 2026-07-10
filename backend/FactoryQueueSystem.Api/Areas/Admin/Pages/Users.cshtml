@@ -1,0 +1,81 @@
+@page
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.UsersModel
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Kullanıcılar</h1>
+        <p class="text-secondary mb-0">Admin ve sürücü hesapları.</p>
+    </div>
+    <form method="get" class="form-check">
+        <input class="form-check-input" asp-for="ShowDeleted" onchange="this.form.submit()" />
+        <label class="form-check-label" asp-for="ShowDeleted">Silinen kayıtları göster</label>
+    </form>
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+{
+    <div class="alert alert-success rounded-4">@Model.SuccessMessage</div>
+}
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger rounded-4">@Model.ErrorMessage</div>
+}
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Ad Soyad</th>
+                        <th>E-posta</th>
+                        <th>Telefon</th>
+                        <th>Rol</th>
+                        <th>Kayıt</th>
+                        @if (Model.ShowDeleted)
+                        {
+                            <th>Silinme</th>
+                        }
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td class="fw-bold">
+                            @item.FirstName @item.LastName
+                            @if (item.IsDeleted)
+                            {
+                                <span class="badge text-bg-danger ms-2">Silindi</span>
+                            }
+                        </td>
+                        <td>@(item.Email ?? "-")</td>
+                        <td>@(item.PhoneNumber ?? "-")</td>
+                        <td><span class="badge @(item.Role == "Admin" ? "text-bg-dark" : "text-bg-primary")">@item.Role</span></td>
+                        <td>@item.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                        @if (Model.ShowDeleted)
+                        {
+                            <td>@(item.DeletedAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                        }
+                        <td>
+                            <div class="d-flex gap-2 flex-wrap">
+                                @if (item.IsDeleted)
+                                {
+                                    <form method="post" asp-page-handler="Restore" asp-route-id="@item.Id">
+                                        <button class="btn btn-outline-success" type="submit">Geri Yükle</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-primary" asp-page="/Users/Edit" asp-route-id="@item.Id">Düzenle</a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" asp-route-showDeleted="@Model.ShowDeleted" onsubmit="return confirm('Bu kayıt sistemden kaldırılacak ancak geçmiş veriler korunacaktır. Devam etmek istiyor musunuz?');">
+                                        <button class="btn btn-outline-danger" type="submit">Sil</button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

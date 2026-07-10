@@ -33,6 +33,27 @@ class ShipmentService {
     }
   }
 
+  Future<ActiveShipment> assignVehicle(String shipmentId, {required String plateNumber}) async {
+    try {
+      final response = await _dio.post(
+        '/api/shipments/$shipmentId/assign-vehicle',
+        data: {'plateNumber': plateNumber},
+      );
+      return ActiveShipment.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      throw ApiException(_message(error));
+    }
+  }
+
+  Future<ActiveShipment> exitFacility(String shipmentId) async {
+    try {
+      final response = await _dio.post('/api/shipments/$shipmentId/exit-facility');
+      return ActiveShipment.fromJson(response.data as Map<String, dynamic>);
+    } on DioException catch (error) {
+      throw ApiException(_message(error));
+    }
+  }
+
   Future<ShipmentStatus> getStatus(String shipmentId) async {
     try {
       final response = await _dio.get('/api/shipments/$shipmentId/status');
@@ -52,6 +73,10 @@ class ShipmentService {
   }
 
   String _message(DioException error) {
+    if (error.response?.statusCode == 404 && error.requestOptions.path.endsWith('/result')) {
+      return 'Sonuç henüz hazır değil';
+    }
+
     final data = error.response?.data;
     if (data is Map<String, dynamic> && data['message'] is String) {
       return data['message'] as String;

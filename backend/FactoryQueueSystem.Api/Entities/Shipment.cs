@@ -3,7 +3,8 @@ namespace FactoryQueueSystem.Api.Entities;
 public class Shipment
 {
     public Guid Id { get; set; }
-    public Guid VehicleId { get; set; }
+    public Guid? UserId { get; set; }
+    public Guid? VehicleId { get; set; }
     public ShipmentStatus Status { get; set; }
     public int? QueueNumber { get; set; }
     public DateOnly? QueueDate { get; set; }
@@ -13,6 +14,7 @@ public class Shipment
     public DateTime? QueuedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
 
-    public Vehicle Vehicle { get; set; } = null!;
+    public User? User { get; set; }
+    public Vehicle? Vehicle { get; set; }
     public WeighingRecord? WeighingRecord { get; set; }
 }

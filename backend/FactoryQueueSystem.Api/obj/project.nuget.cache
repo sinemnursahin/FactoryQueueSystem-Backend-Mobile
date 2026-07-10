@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z48/fnAqKnA=",
+  "dgSpecHash": "b3Nzsu7uPaY=",
   "success": true,
-  "projectFilePath": "c:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
+  "projectFilePath": "C:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sinem\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\sinem\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

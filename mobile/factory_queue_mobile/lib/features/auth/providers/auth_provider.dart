@@ -43,7 +43,6 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<void> register({
     required String firstName,
     required String lastName,
-    required String plateNumber,
     required String? email,
     required String? phoneNumber,
     required String password,
@@ -55,7 +54,6 @@ class AuthNotifier extends Notifier<AuthState> {
           lastName: lastName,
           email: email,
           phoneNumber: phoneNumber,
-          plateNumber: plateNumber,
           password: password,
         ),
       ),

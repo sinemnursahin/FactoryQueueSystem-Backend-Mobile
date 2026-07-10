@@ -1,14 +1,14 @@
 class ActiveShipment {
   ActiveShipment({
     required this.id,
-    required this.vehicleId,
-    required this.plateNumber,
-    required this.driverName,
     required this.status,
-    required this.statusName,
     required this.createdAt,
     required this.totalQueuedVehicles,
     this.queueNumber,
+    this.vehicleId,
+    this.plateNumber,
+    this.driverName,
+    this.statusName,
     this.queueDate,
     this.rawMaterialName,
     this.supplierName,
@@ -17,11 +17,11 @@ class ActiveShipment {
   });
 
   final String id;
-  final String vehicleId;
-  final String plateNumber;
-  final String driverName;
+  final String? vehicleId;
+  final String? plateNumber;
+  final String? driverName;
   final int status;
-  final String statusName;
+  final String? statusName;
   final int? queueNumber;
   final String? queueDate;
   final String? rawMaterialName;
@@ -32,6 +32,7 @@ class ActiveShipment {
   final int? vehiclesAhead;
 
   bool get canQueue => status == 0;
+  bool get hasVehicle => plateNumber != null && plateNumber!.isNotEmpty;
 
   String get displayStatusName => switch (status) {
         0 => 'Yolda',
@@ -41,17 +42,17 @@ class ActiveShipment {
         4 => 'Boşaltımda',
         5 => 'Boşaltım Tamamlandı',
         6 => 'Tamamlandı',
-        _ => statusName,
+        _ => statusName ?? '-',
       };
 
   factory ActiveShipment.fromJson(Map<String, dynamic> json) {
     return ActiveShipment(
       id: json['id'] as String,
-      vehicleId: json['vehicleId'] as String,
-      plateNumber: json['plateNumber'] as String,
-      driverName: json['driverName'] as String,
+      vehicleId: json['vehicleId'] as String?,
+      plateNumber: json['plateNumber'] as String?,
+      driverName: json['driverName'] as String?,
       status: json['status'] as int,
-      statusName: json['statusName'] as String,
+      statusName: json['statusName'] as String?,
       totalQueuedVehicles: json['totalQueuedVehicles'] as int? ?? 0,
       queueNumber: json['queueNumber'] as int?,
       queueDate: json['queueDate'] as String?,

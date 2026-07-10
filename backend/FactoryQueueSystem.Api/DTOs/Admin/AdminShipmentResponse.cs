@@ -2,9 +2,9 @@ namespace FactoryQueueSystem.Api.DTOs.Admin;
 
 public record AdminShipmentResponse(
     Guid ShipmentId,
-    Guid VehicleId,
-    string PlateNumber,
-    string DriverName,
+    Guid? VehicleId,
+    string? PlateNumber,
+    string? DriverName,
     int Status,
     string StatusName,
     int? QueueNumber,

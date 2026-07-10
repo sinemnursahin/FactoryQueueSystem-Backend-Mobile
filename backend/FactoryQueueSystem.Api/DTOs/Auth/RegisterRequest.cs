@@ -5,5 +5,4 @@ public record RegisterRequest(
     string LastName,
     string? Email,
     string? PhoneNumber,
-    string PlateNumber,
     string Password);

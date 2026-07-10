@@ -25,7 +25,7 @@ class ShipmentResultScreen extends ConsumerWidget {
         ),
         child: SafeArea(
           child: result.when(
-            data: (value) => _content(context, value),
+            data: (value) => _content(context, ref, value),
             error: (error, _) => _EmptyState(message: error.toString(), onRetry: () => ref.invalidate(shipmentResultProvider(shipmentId))),
             loading: () => const _Skeleton(),
           ),
@@ -34,7 +34,7 @@ class ShipmentResultScreen extends ConsumerWidget {
     );
   }
 
-  Widget _content(BuildContext context, ShipmentResult result) {
+  Widget _content(BuildContext context, WidgetRef ref, ShipmentResult result) {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
       children: [
@@ -44,7 +44,7 @@ class ShipmentResultScreen extends ConsumerWidget {
             children: [
               const Icon(Icons.check_circle_rounded, color: Colors.white, size: 70),
               const SizedBox(height: 14),
-              const Text('Shipment Completed', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900)),
+              const Text('Sevkiyat Tamamlandı', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900)),
               const SizedBox(height: 6),
               Text('İşlem başarıyla tamamlandı.', style: TextStyle(color: Colors.white.withValues(alpha: .82))),
             ],
@@ -55,7 +55,7 @@ class ShipmentResultScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Net Amount', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black54)),
+              Text('Net Miktar', style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.black54)),
               const SizedBox(height: 8),
               Text(result.netAmount.toStringAsFixed(2), style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w900, color: const Color(0xFF22C55E))),
             ],
@@ -64,18 +64,38 @@ class ShipmentResultScreen extends ConsumerWidget {
         const SizedBox(height: 18),
         Row(
           children: [
-            Expanded(child: _MetricCard(title: 'Loaded Weight', value: result.loadedWeight.toStringAsFixed(2), icon: Icons.scale_rounded)),
+            Expanded(child: _MetricCard(title: 'Dolu Ağırlık', value: result.loadedWeight.toStringAsFixed(2), icon: Icons.scale_rounded)),
             const SizedBox(width: 14),
-            Expanded(child: _MetricCard(title: 'Empty Weight', value: result.emptyWeight.toStringAsFixed(2), icon: Icons.scale_outlined)),
+            Expanded(child: _MetricCard(title: 'Boş Ağırlık', value: result.emptyWeight.toStringAsFixed(2), icon: Icons.scale_outlined)),
           ],
         ),
         const SizedBox(height: 14),
-        _MetricCard(title: 'Completion Date', value: result.completedAt.toLocal().toString(), icon: Icons.event_available_rounded),
+        _MetricCard(title: 'Dolu Tartım Tarihi', value: _formatDateTime(result.loadedWeighDate), icon: Icons.login_rounded),
+        const SizedBox(height: 14),
+        _MetricCard(title: 'Boş Tartım Tarihi', value: _formatDateTime(result.emptyWeighDate), icon: Icons.logout_rounded),
+        const SizedBox(height: 14),
+        _MetricCard(title: 'Tamamlanma Tarihi', value: _formatDateTime(result.completedAt), icon: Icons.event_available_rounded),
         const SizedBox(height: 20),
         FilledButton.icon(
           onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
           icon: const Icon(Icons.dashboard_rounded),
-          label: const Text('Back to Dashboard'),
+          label: const Text('Dashboard'),
+        ),
+        const SizedBox(height: 12),
+        OutlinedButton.icon(
+          onPressed: () async {
+            try {
+              await ref.read(queueShipmentProvider).exitFacility(shipmentId);
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Çıkış yapıldı. Yeni ziyaret başlatıldı.')));
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            } catch (error) {
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString()), backgroundColor: const Color(0xFFEF4444)));
+            }
+          },
+          icon: const Icon(Icons.exit_to_app_rounded),
+          label: const Text('Tesisten Çıkış Yaptım'),
         ),
       ],
     );
@@ -185,4 +205,14 @@ class _EmptyState extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatDateTime(DateTime value) {
+  final local = value.toLocal();
+  final day = local.day.toString().padLeft(2, '0');
+  final month = local.month.toString().padLeft(2, '0');
+  final year = local.year;
+  final hour = local.hour.toString().padLeft(2, '0');
+  final minute = local.minute.toString().padLeft(2, '0');
+  return '$day.$month.$year $hour:$minute';
 }

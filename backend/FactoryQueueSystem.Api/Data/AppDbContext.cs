@@ -21,8 +21,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(x => x.PasswordHash).IsRequired();
             entity.Property(x => x.Role).HasMaxLength(20).IsRequired();
             entity.Property(x => x.CreatedAt).IsRequired();
+            entity.Property(x => x.IsDeleted).HasDefaultValue(false).IsRequired();
             entity.HasIndex(x => x.Email).IsUnique().HasFilter("[Email] IS NOT NULL");
             entity.HasIndex(x => x.PhoneNumber).IsUnique().HasFilter("[PhoneNumber] IS NOT NULL");
+            entity.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<Vehicle>(entity =>
@@ -30,9 +32,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(x => x.PlateNumber).HasMaxLength(20).IsRequired();
             entity.Property(x => x.DriverName).HasMaxLength(200).IsRequired();
             entity.Property(x => x.CreatedAt).IsRequired();
+            entity.Property(x => x.IsDeleted).HasDefaultValue(false).IsRequired();
             entity.HasIndex(x => x.PlateNumber).IsUnique();
             entity.HasIndex(x => x.UserId);
             entity.HasOne(x => x.User).WithMany(x => x.Vehicles).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasQueryFilter(x => !x.IsDeleted);
         });
 
         modelBuilder.Entity<Shipment>(entity =>
@@ -41,11 +45,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(x => x.RawMaterialName).HasMaxLength(150);
             entity.Property(x => x.SupplierName).HasMaxLength(150);
             entity.Property(x => x.CreatedAt).IsRequired();
+            entity.HasIndex(x => x.UserId);
             entity.HasIndex(x => x.VehicleId);
             entity.HasIndex(x => x.Status);
             entity.HasIndex(x => new { x.QueueDate, x.QueueNumber })
                 .IsUnique()
                 .HasFilter("[QueueDate] IS NOT NULL AND [QueueNumber] IS NOT NULL");
+            entity.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(x => x.Vehicle).WithMany(x => x.Shipments).HasForeignKey(x => x.VehicleId).OnDelete(DeleteBehavior.Restrict);
         });
 

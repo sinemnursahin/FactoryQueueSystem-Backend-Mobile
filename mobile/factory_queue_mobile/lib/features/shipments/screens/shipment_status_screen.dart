@@ -1,4 +1,5 @@
 import 'package:factory_queue_mobile/features/shipments/models/shipment_status.dart';
+import 'package:factory_queue_mobile/features/profile/screens/profile_screen.dart';
 import 'package:factory_queue_mobile/features/shipments/providers/shipment_polling_provider.dart';
 import 'package:factory_queue_mobile/features/shipments/screens/shipment_result_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,17 @@ class ShipmentStatusScreen extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent, title: const Text('Durum Takibi')),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: const Text('Durum Takibi'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(_fadeRoute(const ProfileScreen())),
+            icon: const Icon(Icons.person_rounded),
+            tooltip: 'Profil',
+          ),
+        ],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -26,7 +37,7 @@ class ShipmentStatusScreen extends ConsumerWidget {
         ),
         child: SafeArea(
           child: status.when(
-            data: (value) => _content(context, value),
+            data: (value) => _content(context, ref, value),
             error: (error, _) => _EmptyState(message: error.toString(), onRetry: () => ref.invalidate(shipmentPollingProvider(shipmentId))),
             loading: () => const _Skeleton(),
           ),
@@ -35,7 +46,7 @@ class ShipmentStatusScreen extends ConsumerWidget {
     );
   }
 
-  Widget _content(BuildContext context, ShipmentStatus status) {
+  Widget _content(BuildContext context, WidgetRef ref, ShipmentStatus status) {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
       children: [
@@ -62,6 +73,8 @@ class ShipmentStatusScreen extends ConsumerWidget {
               const SizedBox(height: 14),
               _InfoTile(icon: Icons.confirmation_number_rounded, label: 'Sıra numarası', value: status.queueNumber?.toString() ?? '-'),
               _InfoTile(icon: Icons.directions_car_rounded, label: 'Önünüzdeki araç', value: status.vehiclesAhead?.toString() ?? '-'),
+              _InfoTile(icon: Icons.login_rounded, label: 'Kantara giriş', value: _formatDateTime(status.queuedAt)),
+              _InfoTile(icon: Icons.logout_rounded, label: 'Kantardan çıkış', value: _formatDateTime(status.completedAt)),
               _InfoTile(icon: Icons.radar_rounded, label: 'Tahmini durum', value: status.status == 6 ? 'Tamamlandı' : 'İşlem devam ediyor'),
             ],
           ),
@@ -83,7 +96,7 @@ class ShipmentStatusScreen extends ConsumerWidget {
         FilledButton.icon(
           onPressed: status.status == 6 ? () => Navigator.of(context).push(_fadeRoute(ShipmentResultScreen(shipmentId: shipmentId))) : null,
           icon: const Icon(Icons.receipt_long_rounded),
-          label: const Text('Sonucu Gör'),
+          label: const Text('Sonuç Ekranı'),
         ),
       ],
     );
@@ -278,3 +291,16 @@ Color _statusColor(int status) => switch (status) {
       6 => const Color(0xFF22C55E),
       _ => Colors.grey,
     };
+
+String _formatDateTime(DateTime? value) {
+  if (value == null) {
+    return '-';
+  }
+  final local = value.toLocal();
+  final day = local.day.toString().padLeft(2, '0');
+  final month = local.month.toString().padLeft(2, '0');
+  final year = local.year;
+  final hour = local.hour.toString().padLeft(2, '0');
+  final minute = local.minute.toString().padLeft(2, '0');
+  return '$day.$month.$year $hour:$minute';
+}

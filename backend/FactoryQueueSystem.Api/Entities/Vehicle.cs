@@ -7,6 +7,8 @@ public class Vehicle
     public Guid UserId { get; set; }
     public string DriverName { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
 
     public User User { get; set; } = null!;
     public ICollection<Shipment> Shipments { get; set; } = new List<Shipment>();

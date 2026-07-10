@@ -1,0 +1,212 @@
+backend\FactoryQueueSystem.Api\Properties\launchSettings.json içindeki başlatma ayarları kullanılıyor...
+Derleniyor...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Migrations[20411]
+      Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+      BEGIN
+          CREATE TABLE [__EFMigrationsHistory] (
+              [MigrationId] nvarchar(150) NOT NULL,
+              [ProductVersion] nvarchar(32) NOT NULL,
+              CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+          );
+      END;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[@__adminEmail_0='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @__adminEmail_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__driverEmail_0='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @__driverEmail_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId]
+      FROM [Vehicles] AS [v]
+      WHERE [v].[PlateNumber] = N'34 FQS 001'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@__driver_Id_0='?' (DbType = Guid), @__vehicle_Id_1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Shipments] AS [s]
+              WHERE ([s].[UserId] = @__driver_Id_0 OR [s].[VehicleId] = @__vehicle_Id_1) AND [s].[Status] <> 6) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:5141
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[@__login_0='?' (Size = 150), @__login_0_1='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND ([u].[Email] = @__login_0 OR [u].[PhoneNumber] = @__login_0_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__login_0='?' (Size = 150), @__login_0_1='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND ([u].[Email] = @__login_0 OR [u].[PhoneNumber] = @__login_0_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[@__login_0='?' (Size = 150), @__login_0_1='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND ([u].[Email] = @__login_0 OR [u].[PhoneNumber] = @__login_0_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__result_Value_UserId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND [u].[Id] = @__result_Value_UserId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[CompletedAt], [s].[CreatedAt], [s].[QueueDate], [s].[QueueNumber], [s].[QueuedAt], [s].[RawMaterialName], [s].[Status], [s].[SupplierName], [s].[UserId], [s].[VehicleId], [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId], [w].[Id], [w].[EmptyWeighDate], [w].[EmptyWeight], [w].[LoadedWeighDate], [w].[LoadedWeight], [w].[NetAmount], [w].[ShipmentId]
+      FROM [Shipments] AS [s]
+      LEFT JOIN [Vehicles] AS [v] ON [s].[VehicleId] = [v].[Id]
+      LEFT JOIN [WeighingRecords] AS [w] ON [s].[Id] = [w].[ShipmentId]
+      WHERE [s].[Status] = 1
+      ORDER BY [s].[QueueDate], [s].[QueueNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__login_0='?' (Size = 150), @__login_0_1='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND ([u].[Email] = @__login_0 OR [u].[PhoneNumber] = @__login_0_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__result_Value_UserId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND [u].[Id] = @__result_Value_UserId_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [s].[Id], [s].[CompletedAt], [s].[CreatedAt], [s].[QueueDate], [s].[QueueNumber], [s].[QueuedAt], [s].[RawMaterialName], [s].[Status], [s].[SupplierName], [s].[UserId], [s].[VehicleId], [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId], [w].[Id], [w].[EmptyWeighDate], [w].[EmptyWeight], [w].[LoadedWeighDate], [w].[LoadedWeight], [w].[NetAmount], [w].[ShipmentId]
+      FROM [Shipments] AS [s]
+      LEFT JOIN [Vehicles] AS [v] ON [s].[VehicleId] = [v].[Id]
+      LEFT JOIN [WeighingRecords] AS [w] ON [s].[Id] = [w].[ShipmentId]
+      WHERE [s].[Status] = 1
+      ORDER BY [s].[QueueDate], [s].[QueueNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [u].[IsDeleted], [u].[Role], [u].[FirstName], [u].[LastName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId], [s1].[Id], [s1].[CompletedAt], [s1].[CreatedAt], [s1].[QueueDate], [s1].[QueueNumber], [s1].[QueuedAt], [s1].[RawMaterialName], [s1].[Status], [s1].[SupplierName], [s1].[UserId], [s1].[VehicleId]
+      FROM [Vehicles] AS [v]
+      LEFT JOIN (
+          SELECT [s0].[Id], [s0].[CompletedAt], [s0].[CreatedAt], [s0].[QueueDate], [s0].[QueueNumber], [s0].[QueuedAt], [s0].[RawMaterialName], [s0].[Status], [s0].[SupplierName], [s0].[UserId], [s0].[VehicleId]
+          FROM (
+              SELECT [s].[Id], [s].[CompletedAt], [s].[CreatedAt], [s].[QueueDate], [s].[QueueNumber], [s].[QueuedAt], [s].[RawMaterialName], [s].[Status], [s].[SupplierName], [s].[UserId], [s].[VehicleId], ROW_NUMBER() OVER(PARTITION BY [s].[VehicleId] ORDER BY [s].[CreatedAt] DESC) AS [row]
+              FROM [Shipments] AS [s]
+              WHERE [s].[Status] <> 6
+          ) AS [s0]
+          WHERE [s0].[row] <= 1
+      ) AS [s1] ON [v].[Id] = [s1].[VehicleId]
+      WHERE [v].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [v].[IsDeleted], [v].[PlateNumber]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [u].[IsDeleted], [u].[Role], [u].[FirstName], [u].[LastName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT [u0].[Id], [u0].[CreatedAt], [u0].[DeletedAt], [u0].[Email], [u0].[FirstName], [u0].[IsDeleted], [u0].[LastName], [u0].[PasswordHash], [u0].[PhoneNumber], [u0].[Role], [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId]
+      FROM (
+          SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+          FROM [Users] AS [u]
+          WHERE [u].[Id] = @__id_0
+      ) AS [u0]
+      LEFT JOIN [Vehicles] AS [v] ON [u0].[Id] = [v].[UserId]
+      ORDER BY [u0].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid), @__id_1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Shipments] AS [s]
+              LEFT JOIN [Vehicles] AS [v] ON [s].[VehicleId] = [v].[Id]
+              WHERE ([s].[UserId] = @__id_0 OR ([v].[Id] IS NOT NULL AND [v].[UserId] = @__id_1)) AND [s].[Status] <> 6) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [u].[IsDeleted], [u].[Role], [u].[FirstName], [u].[LastName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT [u0].[Id], [u0].[CreatedAt], [u0].[DeletedAt], [u0].[Email], [u0].[FirstName], [u0].[IsDeleted], [u0].[LastName], [u0].[PasswordHash], [u0].[PhoneNumber], [u0].[Role], [v].[Id], [v].[CreatedAt], [v].[DeletedAt], [v].[DriverName], [v].[IsDeleted], [v].[PlateNumber], [v].[UserId]
+      FROM (
+          SELECT TOP(1) [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+          FROM [Users] AS [u]
+          WHERE [u].[Id] = @__id_0
+      ) AS [u0]
+      LEFT JOIN [Vehicles] AS [v] ON [u0].[Id] = [v].[UserId]
+      ORDER BY [u0].[Id]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid), @__id_1='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Shipments] AS [s]
+              LEFT JOIN [Vehicles] AS [v] ON [s].[VehicleId] = [v].[Id]
+              WHERE ([s].[UserId] = @__id_0 OR ([v].[Id] IS NOT NULL AND [v].[UserId] = @__id_1)) AND [s].[Status] <> 6) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = DateTime2), @p1='?' (DbType = Boolean), @p5='?' (DbType = Guid), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [DeletedAt] = @p0, [IsDeleted] = @p1
+      OUTPUT 1
+      WHERE [Id] = @p2;
+      UPDATE [Vehicles] SET [DeletedAt] = @p3, [IsDeleted] = @p4
+      OUTPUT 1
+      WHERE [Id] = @p5;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [u].[IsDeleted], [u].[Role], [u].[FirstName], [u].[LastName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (17ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[Id], [u].[CreatedAt], [u].[DeletedAt], [u].[Email], [u].[FirstName], [u].[IsDeleted], [u].[LastName], [u].[PasswordHash], [u].[PhoneNumber], [u].[Role]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit)
+      ORDER BY [u].[IsDeleted], [u].[Role], [u].[FirstName], [u].[LastName]

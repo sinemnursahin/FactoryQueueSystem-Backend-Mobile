@@ -32,7 +32,7 @@ public class AdminShipmentService(AppDbContext db, FactoryClock clock)
             .ToListAsync();
 
     public async Task<ServiceResult<AdminShipmentResponse>> CallToScaleAsync(Guid id) =>
-        await TransitionAsync(id, ShipmentStatus.InQueue, ShipmentStatus.CalledToScale);
+        await CallToScaleOrderedAsync(id);
 
     public async Task<ServiceResult<AdminShipmentResponse>> StartUnloadingAsync(Guid id) =>
         await TransitionAsync(id, ShipmentStatus.AtScale, ShipmentStatus.Unloading);
@@ -145,15 +145,62 @@ public class AdminShipmentService(AppDbContext db, FactoryClock clock)
         return ServiceResult<AdminShipmentResponse>.Ok(ToAdminResponse(shipment));
     }
 
+    private async Task<ServiceResult<AdminShipmentResponse>> CallToScaleOrderedAsync(Guid id)
+    {
+        var shipment = await Query().FirstOrDefaultAsync(x => x.Id == id);
+        if (shipment == null)
+        {
+            return ServiceResult<AdminShipmentResponse>.NotFound("Sevkiyat bulunamadı.");
+        }
+
+        if (shipment.Status == ShipmentStatus.Completed)
+        {
+            return ServiceResult<AdminShipmentResponse>.BadRequest("Tamamlanan sevkiyatlar değiştirilemez.");
+        }
+
+        if (shipment.Status != ShipmentStatus.InQueue)
+        {
+            return ServiceResult<AdminShipmentResponse>.BadRequest($"Geçersiz durum geçişi: {StatusText(shipment.Status)} -> {StatusText(ShipmentStatus.CalledToScale)}.");
+        }
+
+        if (shipment.QueueDate == null || shipment.QueueNumber == null)
+        {
+            return ServiceResult<AdminShipmentResponse>.BadRequest("Kantara çağrı için sıra bilgisi bulunamadı.");
+        }
+
+        var nextQueueNumber = await db.Shipments
+            .Where(x => x.QueueDate == shipment.QueueDate && x.Status == ShipmentStatus.InQueue && x.QueueNumber != null)
+            .MinAsync(x => (int?)x.QueueNumber);
+
+        if (nextQueueNumber != shipment.QueueNumber)
+        {
+            return ServiceResult<AdminShipmentResponse>.BadRequest("Sıradaki araç beklemeden kantara çağrılamaz.");
+        }
+
+        var scaleBusy = await db.Shipments.AnyAsync(x =>
+            x.QueueDate == shipment.QueueDate &&
+            x.Id != shipment.Id &&
+            (x.Status == ShipmentStatus.CalledToScale || x.Status == ShipmentStatus.AtScale));
+
+        if (scaleBusy)
+        {
+            return ServiceResult<AdminShipmentResponse>.BadRequest("Kantarda başka bir araç işlem görüyor.");
+        }
+
+        shipment.Status = ShipmentStatus.CalledToScale;
+        await db.SaveChangesAsync();
+        return ServiceResult<AdminShipmentResponse>.Ok(ToAdminResponse(shipment));
+    }
+
     private IQueryable<Shipment> Query() =>
-        db.Shipments.Include(x => x.Vehicle).Include(x => x.WeighingRecord);
+        db.Shipments.IgnoreQueryFilters().Include(x => x.Vehicle).Include(x => x.WeighingRecord);
 
     private static AdminShipmentResponse ToAdminResponse(Shipment shipment) =>
         new(
             shipment.Id,
             shipment.VehicleId,
-            shipment.Vehicle.PlateNumber,
-            shipment.Vehicle.DriverName,
+            shipment.Vehicle?.PlateNumber,
+            shipment.Vehicle?.DriverName,
             (int)shipment.Status,
             StatusText(shipment.Status),
             shipment.QueueNumber,

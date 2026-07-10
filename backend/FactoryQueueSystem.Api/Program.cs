@@ -15,6 +15,10 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<ShipmentService>();
 builder.Services.AddScoped<AdminShipmentService>();
+builder.Services.AddScoped<AdminUserService>();
+builder.Services.AddScoped<AdminVehicleService>();
+builder.Services.AddScoped<ProfileService>();
+builder.Services.AddScoped<ProfileVehicleService>();
 builder.Services.AddScoped<QueueNumberService>();
 builder.Services.AddScoped<FactoryClock>();
 
@@ -23,12 +27,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
+    var developmentOrigins = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "http://localhost:3000",
+        "http://localhost:5000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5000",
+        "http://127.0.0.1:5173"
+    };
+
     options.AddPolicy("DevelopmentCors", policy =>
     {
         policy
             .SetIsOriginAllowed(origin =>
-                Uri.TryCreate(origin, UriKind.Absolute, out var uri) &&
-                (uri.Host == "localhost" || uri.Host == "127.0.0.1"))
+                developmentOrigins.Contains(origin) ||
+                (Uri.TryCreate(origin, UriKind.Absolute, out var uri) &&
+                 (uri.Host == "localhost" || uri.Host == "127.0.0.1")))
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

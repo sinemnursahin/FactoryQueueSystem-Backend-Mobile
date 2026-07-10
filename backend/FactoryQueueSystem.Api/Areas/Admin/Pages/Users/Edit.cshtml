@@ -1,0 +1,58 @@
+@page "{id:guid}"
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.Users.EditModel
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Kullanıcı Düzenle</h1>
+        <p class="text-secondary mb-0">İletişim ve rol bilgileri.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-page="/Users">Listeye Dön</a>
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger rounded-4">@Model.ErrorMessage</div>
+}
+<div class="card">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            <input type="hidden" asp-for="Input.Id" />
+            <div class="col-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.FirstName">Ad</label>
+                <input class="form-control" asp-for="Input.FirstName" />
+                <span class="text-danger" asp-validation-for="Input.FirstName"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.LastName">Soyad</label>
+                <input class="form-control" asp-for="Input.LastName" />
+                <span class="text-danger" asp-validation-for="Input.LastName"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.Email">E-posta</label>
+                <input class="form-control" asp-for="Input.Email" type="email" aria-describedby="emailHelp" />
+                <div id="emailHelp" class="form-text">Örn: ad@example.com</div>
+                <span class="text-danger" asp-validation-for="Input.Email"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.PhoneNumber">Telefon</label>
+                <div class="input-group">
+                    <span class="input-group-text">+90</span>
+                    <input class="form-control" asp-for="Input.PhoneNumber" type="tel" inputmode="numeric" maxlength="10" pattern="5[0-9]{9}" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" aria-describedby="phoneHelp" />
+                </div>
+                <div id="phoneHelp" class="form-text">Örn: 532 123 45 67</div>
+                <span class="text-danger" asp-validation-for="Input.PhoneNumber"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.Role">Rol</label>
+                <select class="form-control" asp-for="Input.Role">
+                    <option value="Driver">Driver</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>

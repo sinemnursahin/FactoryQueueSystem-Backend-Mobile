@@ -1,0 +1,28 @@
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.Vehicles.VehicleFormPageModel
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger rounded-4">@Model.ErrorMessage</div>
+}
+<div class="card">
+    <div class="card-body">
+        <form method="post" class="row g-3">
+            <input type="hidden" asp-for="Input.Id" />
+            <div class="col-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.PlateNumber">Plaka</label>
+                <input class="form-control" asp-for="Input.PlateNumber" autocomplete="off" maxlength="12" oninput="this.value = this.value.toLocaleUpperCase('tr-TR').replace(/[^0-9A-ZÇĞİÖŞÜ\s]/g, '').replace(/\s+/g, ' ')" />
+                <div class="form-text">Örn: 34 ABC 123</div>
+                <span class="text-danger" asp-validation-for="Input.PlateNumber"></span>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" asp-for="Input.UserId">Sürücü</label>
+                <select class="form-control" asp-for="Input.UserId" asp-items="Model.DriverOptions"></select>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:factory_queue_mobile/core/validation/contact_validation.dart';
+import 'package:factory_queue_mobile/core/validation/phone_input_formatter.dart';
 import 'package:factory_queue_mobile/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +18,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _plateController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  String? _emailError;
+  String? _phoneError;
 
   @override
   void dispose() {
@@ -26,7 +29,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _lastNameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _plateController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -105,14 +107,23 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ],
                           ),
                           const SizedBox(height: 14),
-                          TextField(controller: _emailController, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(prefixIcon: Icon(Icons.mail_rounded), labelText: 'E-posta')),
-                          const SizedBox(height: 14),
-                          TextField(controller: _phoneController, keyboardType: TextInputType.phone, decoration: const InputDecoration(prefixIcon: Icon(Icons.phone_rounded), labelText: 'Telefon')),
+                          TextField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(prefixIcon: const Icon(Icons.mail_rounded), labelText: 'E-posta', helperText: 'Örn: ad@example.com', errorText: _emailError),
+                          ),
                           const SizedBox(height: 14),
                           TextField(
-                            controller: _plateController,
-                            textCapitalization: TextCapitalization.characters,
-                            decoration: const InputDecoration(prefixIcon: Icon(Icons.confirmation_number_rounded), labelText: 'Plaka'),
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: const [PhoneInputFormatter()],
+                            decoration: InputDecoration(
+                              prefixIcon: const _PhonePrefix(),
+                              prefixIconConstraints: const BoxConstraints(minWidth: 76),
+                              labelText: 'Telefon',
+                              helperText: 'Örn: 532 123 45 67',
+                              errorText: _phoneError,
+                            ),
                           ),
                           const SizedBox(height: 14),
                           TextField(
@@ -132,12 +143,24 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             onPressed: auth.isLoading
                                 ? null
                                 : () async {
+                                    final email = ContactValidation.normalizeEmail(_emailController.text);
+                                    final phone = ContactValidation.normalizePhone(_phoneController.text);
+                                    final error = _validateContact(email, phone);
+                                    setState(() {
+                                      _emailError = email != null && !ContactValidation.isValidEmail(email) ? ContactValidation.invalidEmailMessage : null;
+                                      _phoneError = phone != null && !ContactValidation.isValidPhone(phone) ? ContactValidation.invalidPhoneMessage : null;
+                                    });
+                                    if (error != null) {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error), backgroundColor: const Color(0xFFEF4444)));
+                                      return;
+                                    }
+                                    _phoneController.text = PhoneInputFormatter.format(ContactValidation.phoneInputValue(phone));
+
                                     await ref.read(authProvider.notifier).register(
                                           firstName: _firstNameController.text.trim(),
                                           lastName: _lastNameController.text.trim(),
-                                          plateNumber: _plateController.text.trim(),
-                                          email: _emptyToNull(_emailController.text),
-                                          phoneNumber: _emptyToNull(_phoneController.text),
+                                          email: email,
+                                          phoneNumber: phone,
                                           password: _passwordController.text,
                                         );
                                     if (context.mounted && ref.read(authProvider).isAuthenticated) {
@@ -164,8 +187,35 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  String? _emptyToNull(String value) {
-    final trimmed = value.trim();
-    return trimmed.isEmpty ? null : trimmed;
+  String? _validateContact(String? email, String? phone) {
+    if (email == null && phone == null) {
+      return ContactValidation.missingContactMessage;
+    }
+    if (email != null && !ContactValidation.isValidEmail(email)) {
+      return ContactValidation.invalidEmailMessage;
+    }
+    if (phone != null && !ContactValidation.isValidPhone(phone)) {
+      return ContactValidation.invalidPhoneMessage;
+    }
+    return null;
+  }
+}
+
+class _PhonePrefix extends StatelessWidget {
+  const _PhonePrefix();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(left: 12, right: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('+90'),
+          SizedBox(width: 8),
+          SizedBox(height: 22, child: VerticalDivider(width: 1)),
+        ],
+      ),
+    );
   }
 }

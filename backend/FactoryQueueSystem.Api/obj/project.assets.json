@@ -4836,11 +4836,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
+      "projectUniqueName": "C:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
       "projectName": "FactoryQueueSystem.Api",
-      "projectPath": "c:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
+      "projectPath": "C:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\FactoryQueueSystem.Api.csproj",
       "packagesPath": "C:\\Users\\sinem\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\obj\\",
+      "outputPath": "C:\\Users\\sinem\\Desktop\\FactoryQueueSystem\\backend\\FactoryQueueSystem.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

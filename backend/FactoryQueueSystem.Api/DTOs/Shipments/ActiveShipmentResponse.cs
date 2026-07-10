@@ -2,9 +2,9 @@ namespace FactoryQueueSystem.Api.DTOs.Shipments;
 
 public record ActiveShipmentResponse(
     Guid Id,
-    Guid VehicleId,
-    string PlateNumber,
-    string DriverName,
+    Guid? VehicleId,
+    string? PlateNumber,
+    string? DriverName,
     int Status,
     string StatusName,
     int? QueueNumber,

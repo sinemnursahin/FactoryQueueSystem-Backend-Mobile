@@ -1,5 +1,6 @@
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\appsettings.json
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\FactoryQueueSystem.Api.staticwebassets.runtime.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\FactoryQueueSystem.Api.staticwebassets.endpoints.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\FactoryQueueSystem.Api.exe
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\FactoryQueueSystem.Api.deps.json
@@ -42,9 +43,13 @@ C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Deb
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Mono.TextTemplating.dll
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\System.ClientModel.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\System.CodeDom.dll
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\System.Composition.AttributedModel.dll
@@ -143,9 +148,11 @@ C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Deb
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.AssemblyInfoInputs.cache
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.AssemblyInfo.cs
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.csproj.CoreCompileInputs.cache
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.RazorAssemblyInfo.cache
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.RazorAssemblyInfo.cs
+C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.sourcelink.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -161,9 +168,3 @@ C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Deb
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.pdb
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.genruntimeconfig.cache
 C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\ref\FactoryQueueSystem.Api.dll
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\obj\Debug\net9.0\FactoryQueueSystem.Api.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\sinem\Desktop\FactoryQueueSystem\backend\FactoryQueueSystem.Api\bin\Debug\net9.0\FactoryQueueSystem.Api.staticwebassets.runtime.json

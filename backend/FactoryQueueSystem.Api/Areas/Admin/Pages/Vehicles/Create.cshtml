@@ -1,0 +1,10 @@
+@page
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.Vehicles.CreateModel
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center mb-4">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Araç Oluştur</h1>
+        <p class="text-secondary mb-0">Plaka ve sürücü seçimi.</p>
+    </div>
+    <a class="btn btn-outline-secondary" asp-page="/Vehicles">Listeye Dön</a>
+</div>
+@await Html.PartialAsync("_VehicleForm", Model)
