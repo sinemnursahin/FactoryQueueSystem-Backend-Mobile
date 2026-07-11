@@ -44,6 +44,6 @@ public class LoginModel(AuthService authService) : PageModel
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)));
 
-        return RedirectToPage("/Queue", new { area = "Admin" });
+        return RedirectToPage("/Dashboard", new { area = "Admin" });
     }
 }

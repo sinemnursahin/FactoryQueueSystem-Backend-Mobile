@@ -7,8 +7,7 @@ class PlateInputFormatter extends TextInputFormatter {
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final formatted = newValue.text
         .toUpperCase()
-        .replaceAll(RegExp(r'[^0-9A-ZÇĞİÖŞÜ\s]'), '')
-        .replaceAll(RegExp(r'\s+'), ' ');
+        .replaceAll(RegExp(r'[^0-9A-ZÇĞİÖŞÜ]'), '');
 
     return TextEditingValue(
       text: formatted,

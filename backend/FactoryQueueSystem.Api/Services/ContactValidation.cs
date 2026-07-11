@@ -65,7 +65,7 @@ public static partial class ContactValidation
             return null;
         }
 
-        return RepeatedWhitespaceRegex().Replace(value.Trim().ToUpperInvariant(), " ");
+        return value.Trim().ToUpperInvariant();
     }
 
     public static bool IsValidPlate(string? plate)
@@ -87,9 +87,6 @@ public static partial class ContactValidation
     [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.CultureInvariant)]
     private static partial Regex EmailRegex();
 
-    [GeneratedRegex(@"^(?<province>\d{2}) [A-ZÇĞİÖŞÜ]{1,3} \d{2,5}$", RegexOptions.CultureInvariant)]
+    [GeneratedRegex(@"^(?<province>\d{2})[A-ZÇĞİÖŞÜ]{1,3}\d{2,5}$", RegexOptions.CultureInvariant)]
     private static partial Regex PlateRegex();
-
-    [GeneratedRegex(@"\s+", RegexOptions.CultureInvariant)]
-    private static partial Regex RepeatedWhitespaceRegex();
 }

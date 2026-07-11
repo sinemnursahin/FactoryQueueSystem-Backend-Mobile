@@ -310,8 +310,8 @@ class _VehicleAssignmentCard extends StatelessWidget {
             controller: plateController,
             enabled: !isAssigning,
             textCapitalization: TextCapitalization.characters,
-            inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(12)],
-            decoration: InputDecoration(labelText: 'Araç Plakası', helperText: 'Örn: 34 ABC 123', errorText: plateError),
+            inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(10)],
+            decoration: InputDecoration(labelText: 'Araç Plakası', helperText: 'Örn: 34ABC123', errorText: plateError),
           ),
           const SizedBox(height: 16),
           FilledButton.icon(

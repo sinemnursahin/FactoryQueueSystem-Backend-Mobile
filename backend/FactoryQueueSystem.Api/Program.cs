@@ -15,6 +15,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<ShipmentService>();
 builder.Services.AddScoped<AdminShipmentService>();
+builder.Services.AddScoped<AdminDashboardService>();
 builder.Services.AddScoped<AdminUserService>();
 builder.Services.AddScoped<AdminVehicleService>();
 builder.Services.AddScoped<ProfileService>();
@@ -137,6 +138,6 @@ if (app.Environment.IsDevelopment())
         return Results.Ok(new { message = "Demo data reset completed." });
     });
 }
-app.MapGet("/", () => Results.Redirect("/Admin/Login"));
+app.MapGet("/", () => Results.Redirect("/Admin/Dashboard"));
 
 app.Run();

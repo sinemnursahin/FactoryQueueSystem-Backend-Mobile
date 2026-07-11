@@ -61,13 +61,16 @@ public static class DbSeeder
 
         await db.SaveChangesAsync();
 
-        var vehicle = await db.Vehicles.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.PlateNumber == "34 FQS 001");
+        const string demoPlate = "34FQS001";
+        const string legacyDemoPlate = "34 FQS 001";
+        var vehicle = await db.Vehicles.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.PlateNumber == demoPlate)
+            ?? await db.Vehicles.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.PlateNumber == legacyDemoPlate);
         if (vehicle == null)
         {
             vehicle = new Vehicle
             {
                 Id = Guid.NewGuid(),
-                PlateNumber = "34 FQS 001",
+                PlateNumber = demoPlate,
                 UserId = driver.Id,
                 DriverName = "Demo Driver",
                 CreatedAt = now
@@ -77,6 +80,7 @@ public static class DbSeeder
         }
         else
         {
+            vehicle.PlateNumber = demoPlate;
             vehicle.IsDeleted = false;
             vehicle.DeletedAt = null;
             await db.SaveChangesAsync();
@@ -164,7 +168,7 @@ public static class DbSeeder
         var vehicle = new Vehicle
         {
             Id = Guid.NewGuid(),
-            PlateNumber = "34 FQS 001",
+            PlateNumber = "34FQS001",
             UserId = driver.Id,
             DriverName = "Demo Driver",
             CreatedAt = now

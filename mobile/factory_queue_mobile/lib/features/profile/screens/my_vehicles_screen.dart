@@ -52,8 +52,8 @@ class _MyVehiclesScreenState extends ConsumerState<MyVehiclesScreen> {
                     TextField(
                       controller: _plateController,
                       textCapitalization: TextCapitalization.characters,
-                      inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(12)],
-                      decoration: InputDecoration(labelText: 'Plaka', helperText: 'Örn: 34 ABC 123', errorText: _plateError),
+                      inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(10)],
+                      decoration: InputDecoration(labelText: 'Plaka', helperText: 'Örn: 34ABC123', errorText: _plateError),
                     ),
                     const SizedBox(height: 14),
                     FilledButton.icon(
@@ -149,8 +149,8 @@ class _VehicleTile extends ConsumerWidget {
         content: TextField(
           controller: controller,
           textCapitalization: TextCapitalization.characters,
-          inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(12)],
-          decoration: const InputDecoration(labelText: 'Plaka', helperText: 'Örn: 34 ABC 123'),
+          inputFormatters: [const PlateInputFormatter(), LengthLimitingTextInputFormatter(10)],
+          decoration: const InputDecoration(labelText: 'Plaka', helperText: 'Örn: 34ABC123'),
         ),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),

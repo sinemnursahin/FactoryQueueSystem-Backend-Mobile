@@ -1,0 +1,325 @@
+@page
+@using System.Text.Json
+@model FactoryQueueSystem.Api.Areas.Admin.Pages.DashboardModel
+@{
+    var initialData = JsonSerializer.Serialize(Model.Dashboard, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+}
+
+<style>
+    .dashboard-hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-end;
+        margin-bottom: 1.5rem;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .metric-card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, .08);
+        padding: 1.25rem;
+        min-height: 156px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .metric-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: #eaf2ff;
+        color: #0d6efd;
+        font-size: 1.35rem;
+    }
+
+    .metric-value {
+        font-size: 2.25rem;
+        font-weight: 800;
+        line-height: 1;
+        color: #0f172a;
+    }
+
+    .dashboard-panel {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 18px 45px rgba(15, 23, 42, .08);
+        margin-top: 1rem;
+        overflow: hidden;
+    }
+
+    .panel-head {
+        padding: 1.2rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .next-row {
+        --bs-table-bg: #eff6ff;
+        box-shadow: inset 4px 0 0 #0d6efd;
+    }
+
+    .status-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: .75rem;
+        padding: 1.25rem;
+    }
+
+    .status-chip {
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: .9rem;
+        background: #f8fafc;
+    }
+
+    .activity-list {
+        display: grid;
+        gap: .75rem;
+        padding: 1.25rem;
+    }
+
+    .activity-item {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: .85rem;
+        padding: .85rem 0;
+        border-bottom: 1px solid #edf2f7;
+    }
+
+    .activity-item:last-child {
+        border-bottom: 0;
+    }
+
+    @@media (max-width: 992px) {
+        .summary-grid,
+        .status-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .dashboard-hero {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .summary-grid,
+        .status-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .activity-item {
+            grid-template-columns: auto 1fr;
+        }
+
+        .activity-time {
+            grid-column: 2;
+        }
+    }
+</style>
+
+<div class="dashboard-hero">
+    <div>
+        <h1 class="h3 fw-bold mb-1">Operasyon Paneli</h1>
+        <p class="text-secondary mb-0">Sıra, kantar, boşaltım ve tamamlanma süreçlerinin canlı özeti.</p>
+    </div>
+    <div class="text-secondary small">Son güncelleme: <span id="lastUpdated">-</span></div>
+</div>
+
+<section class="summary-grid" aria-label="Panel özeti">
+    <article class="metric-card">
+        <div class="d-flex justify-content-between gap-3">
+            <div>
+                <div class="fw-bold">Bugünkü Araçlar</div>
+                <div class="text-secondary small">Bugün giriş yapan toplam araç sayısı.</div>
+            </div>
+            <div class="metric-icon"><i class="bi bi-truck"></i></div>
+        </div>
+        <div class="metric-value" id="todaysVehicles">0</div>
+    </article>
+    <article class="metric-card">
+        <div class="d-flex justify-content-between gap-3">
+            <div>
+                <div class="fw-bold">Bekleyen Sıra</div>
+                <div class="text-secondary small">Şu anda sırada bekleyen araçlar.</div>
+            </div>
+            <div class="metric-icon"><i class="bi bi-list-ol"></i></div>
+        </div>
+        <div class="metric-value" id="waitingQueue">0</div>
+    </article>
+    <article class="metric-card">
+        <div class="d-flex justify-content-between gap-3">
+            <div>
+                <div class="fw-bold">Aktif Operasyonlar</div>
+                <div class="text-secondary small">İşlemi devam eden araçlar.</div>
+            </div>
+            <div class="metric-icon"><i class="bi bi-buildings"></i></div>
+        </div>
+        <div class="metric-value" id="activeOperations">0</div>
+    </article>
+    <article class="metric-card">
+        <div class="d-flex justify-content-between gap-3">
+            <div>
+                <div class="fw-bold">Bugün Tamamlanan</div>
+                <div class="text-secondary small">Bugün tamamlanan sevkiyatlar.</div>
+            </div>
+            <div class="metric-icon"><i class="bi bi-check-circle"></i></div>
+        </div>
+        <div class="metric-value" id="completedToday">0</div>
+    </article>
+</section>
+
+<section class="dashboard-panel">
+    <div class="panel-head">
+        <div>
+            <h2 class="h5 fw-bold mb-1">Mevcut Sıra</h2>
+            <p class="text-secondary mb-0 small">Sıra numarasına göre küçükten büyüğe sıralı.</p>
+        </div>
+        <span class="badge text-bg-primary">Sıradaki araç vurgulanır</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Sıra No</th>
+                    <th>Plaka</th>
+                    <th>Sürücü</th>
+                    <th>Giriş Saati</th>
+                    <th>Güncel Durum</th>
+                </tr>
+            </thead>
+            <tbody id="queueBody"></tbody>
+        </table>
+    </div>
+</section>
+
+<section class="dashboard-panel">
+    <div class="panel-head">
+        <div>
+            <h2 class="h5 fw-bold mb-1">Durum Dağılımı</h2>
+            <p class="text-secondary mb-0 small">Canlı sevkiyat durum sayıları.</p>
+        </div>
+    </div>
+    <div class="status-grid" id="statusDistribution"></div>
+</section>
+
+<section class="dashboard-panel">
+    <div class="panel-head">
+        <div>
+            <h2 class="h5 fw-bold mb-1">Son Hareketler</h2>
+            <p class="text-secondary mb-0 small">En güncel operasyon olayları.</p>
+        </div>
+    </div>
+    <div class="activity-list" id="recentActivity"></div>
+</section>
+
+<script>
+    const initialDashboard = @Html.Raw(initialData);
+    const refreshIntervalMs = 25000;
+
+    const statusBadgeClasses = {
+        0: 'text-bg-secondary',
+        1: 'text-bg-primary',
+        2: 'text-bg-info',
+        3: 'text-bg-warning',
+        4: 'text-bg-warning',
+        5: 'text-bg-secondary',
+        6: 'text-bg-success'
+    };
+
+    function escapeHtml(value) {
+        return String(value ?? '-')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    function formatTime(value) {
+        if (!value) {
+            return '-';
+        }
+
+        return new Intl.DateTimeFormat('tr-TR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: '2-digit'
+        }).format(new Date(value));
+    }
+
+    function renderDashboard(data) {
+        document.getElementById('todaysVehicles').textContent = data.todaysVehicles;
+        document.getElementById('waitingQueue').textContent = data.waitingQueue;
+        document.getElementById('activeOperations').textContent = data.activeOperations;
+        document.getElementById('completedToday').textContent = data.completedToday;
+        document.getElementById('lastUpdated').textContent = formatTime(data.generatedAt);
+
+        const queueBody = document.getElementById('queueBody');
+        queueBody.innerHTML = data.currentQueue.length === 0
+            ? '<tr><td colspan="5" class="text-center text-secondary py-5">Bekleyen araç yok.</td></tr>'
+            : data.currentQueue.map(item => `
+                <tr class="${item.isNext ? 'next-row' : ''}">
+                    <td class="fw-bold">${escapeHtml(item.queueNumber)}</td>
+                    <td class="fw-bold">${escapeHtml(item.plateNumber)}</td>
+                    <td>${escapeHtml(item.driverName)}</td>
+                    <td>${formatTime(item.arrivalTime)}</td>
+                    <td><span class="badge ${statusBadgeClasses[item.status] ?? 'text-bg-secondary'}">${escapeHtml(item.statusName)}</span></td>
+                </tr>
+            `).join('');
+
+        document.getElementById('statusDistribution').innerHTML = data.statusCounts.map(item => `
+            <div class="status-chip">
+                <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+                    <span class="badge ${statusBadgeClasses[item.statusValue] ?? 'text-bg-secondary'}">${escapeHtml(item.statusName)}</span>
+                    <span class="fw-bold fs-4">${item.count}</span>
+                </div>
+                <div class="text-secondary small">${escapeHtml(item.status)}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('recentActivity').innerHTML = data.recentActivities.length === 0
+            ? '<div class="text-center text-secondary py-4">Son hareket yok.</div>'
+            : data.recentActivities.map(item => `
+                <div class="activity-item">
+                    <span class="badge ${escapeHtml(item.badgeClass)}">${escapeHtml(item.action)}</span>
+                    <div>
+                        <div class="fw-semibold">${escapeHtml(item.plateNumber ?? item.driverName)}</div>
+                        <div class="text-secondary small">${escapeHtml(item.driverName)}</div>
+                    </div>
+                    <div class="text-secondary small activity-time">${formatTime(item.timestamp)}</div>
+                </div>
+            `).join('');
+    }
+
+    async function refreshDashboard() {
+        try {
+            const response = await fetch('/api/admin/dashboard', { headers: { 'Accept': 'application/json' } });
+            if (!response.ok) {
+                return;
+            }
+
+            renderDashboard(await response.json());
+        } catch {
+        }
+    }
+
+    renderDashboard(initialDashboard);
+    setInterval(refreshDashboard, refreshIntervalMs);
+</script>

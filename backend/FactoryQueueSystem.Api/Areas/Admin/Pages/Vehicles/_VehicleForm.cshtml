@@ -12,8 +12,8 @@
             </div>
             <div class="col-md-6">
                 <label class="form-label" asp-for="Input.PlateNumber">Plaka</label>
-                <input class="form-control" asp-for="Input.PlateNumber" autocomplete="off" maxlength="12" oninput="this.value = this.value.toLocaleUpperCase('tr-TR').replace(/[^0-9A-ZÇĞİÖŞÜ\s]/g, '').replace(/\s+/g, ' ')" />
-                <div class="form-text">Örn: 34 ABC 123</div>
+                <input class="form-control" asp-for="Input.PlateNumber" autocomplete="off" maxlength="10" oninput="this.value = this.value.toLocaleUpperCase('tr-TR').replace(/[^0-9A-ZÇĞİÖŞÜ]/g, '')" />
+                <div class="form-text">Örn: 34ABC123</div>
                 <span class="text-danger" asp-validation-for="Input.PlateNumber"></span>
             </div>
             <div class="col-md-6">

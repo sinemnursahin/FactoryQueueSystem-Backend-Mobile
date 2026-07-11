@@ -51,7 +51,7 @@ class ContactValidation {
       return null;
     }
 
-    return trimmed.toUpperCase().replaceAll(RegExp(r'\s+'), ' ');
+    return trimmed.toUpperCase();
   }
 
   static bool isValidPlate(String? plate) {
@@ -59,7 +59,7 @@ class ContactValidation {
       return false;
     }
 
-    final match = RegExp(r'^(\d{2}) [A-ZÇĞİÖŞÜ]{1,3} \d{2,5}$').firstMatch(plate);
+    final match = RegExp(r'^(\d{2})[A-ZÇĞİÖŞÜ]{1,3}\d{2,5}$').firstMatch(plate);
     if (match == null) {
       return false;
     }
